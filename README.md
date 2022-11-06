@@ -2,4 +2,4 @@
 Open source app to help patients to communicate
 
 # Dedication
-> Blanca Maria de la Concepción Gonzalez Esparza
+> Blanca María de la Concepción Gonzalez Esparza
