@@ -37,23 +37,54 @@ class MyAppState extends ChangeNotifier {
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // ← 1
-    var appState = context.watch<MyAppState>(); // ← 2
+    var appState = context.watch<MyAppState>();
+    var pair = appState.current;
 
     return Scaffold(
-      // ← 3
-      body: Column(
-        // ← 4
-        children: [
-          Text('A random AWESOME idea:'), // ← 5
-          Text(appState.current.asLowerCase), // ← 6
-          ElevatedButton(
-            onPressed: () {
-              print('button pressed!');
-            },
-            child: Text('Next'),
-          ),
-        ], // ← 7
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('A random AWESOME idea:'),
+            BigCard(pair: pair),
+            ElevatedButton(
+              onPressed: () {
+                //print('button pressed!'); // outputs to 'DEBUG CONSOLE'
+                appState.getNext();
+              },
+              child: Text('Next'),
+            ),
+          ], // ← 7
+        ),
+      ),
+    );
+  }
+}
+
+class BigCard extends StatelessWidget {
+  const BigCard({
+    Key? key,
+    required this.pair,
+  }) : super(key: key);
+
+  final WordPair pair;
+
+  @override
+  Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    var style = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.onPrimary,
+    );
+
+    return Card(
+      color: theme.colorScheme.primary,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Text(
+          pair.asLowerCase,
+          style: style,
+          semanticsLabel: pair.asPascalCase,
+        ),
       ),
     );
   }
