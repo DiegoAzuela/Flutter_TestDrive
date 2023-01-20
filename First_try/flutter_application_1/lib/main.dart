@@ -27,9 +27,21 @@ class MyApp extends StatelessWidget {
 
 class MyAppState extends ChangeNotifier {
   var current = WordPair.random();
-  // ↓ Add this.
+  // Button to get next WordPair
   void getNext() {
     current = WordPair.random();
+    notifyListeners();
+  }
+
+  // Generics are often required for type safety, but they have more benefits than just allowing your code to run,
+  var favorites = <WordPair>[];
+
+  void toggleFavorite() {
+    if (favorites.contains(current)) {
+      favorites.remove(current);
+    } else {
+      favorites.add(current);
+    }
     notifyListeners();
   }
 }
@@ -40,6 +52,13 @@ class MyHomePage extends StatelessWidget {
     var appState = context.watch<MyAppState>();
     var pair = appState.current;
 
+    IconData icon;
+    if (appState.favorites.contains(pair)) {
+      icon = Icons.favorite;
+    } else {
+      icon = Icons.favorite_border;
+    }
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -48,12 +67,28 @@ class MyHomePage extends StatelessWidget {
             // Text('A random AWESOME idea:'),
             BigCard(pair: pair),
             SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                //print('button pressed!'); // outputs to 'DEBUG CONSOLE'
-                appState.getNext();
-              },
-              child: Text('Next'),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // 'Like' Button
+                ElevatedButton.icon(
+                  onPressed: () {
+                    appState.toggleFavorite();
+                  },
+                  icon: Icon(icon),
+                  label: Text('Like'),
+                ),
+                SizedBox(width: 10),
+
+                // 'Next' Button
+                ElevatedButton(
+                  onPressed: () {
+                    //print('button pressed!'); // outputs to 'DEBUG CONSOLE'
+                    appState.getNext();
+                  },
+                  child: Text('Next'),
+                ),
+              ],
             ),
           ], // ← 7
         ),
