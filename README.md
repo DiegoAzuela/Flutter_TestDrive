@@ -1,5 +1,5 @@
-# TheEyesChico
-Open source app to help patients to communicate
+# Flutter Test Drive
+Following "Your first Flutter app" codelab developed by Filip Hracek
 
-# Dedication
-> Blanca María de la Concepción Gonzalez Esparza
+# Sources
+[Your First Flutter App](https://codelabs.developers.google.com/codelabs/flutter-codelab-first#0)
